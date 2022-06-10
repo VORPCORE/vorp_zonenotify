@@ -1,4 +1,4 @@
-# VORP zonealerts
+# VORP Zonenotify
 
 > A RedM zone notification system for [Vorp Core](http://docs.vorpcore.com:3000/)
 
@@ -22,8 +22,8 @@ Join the [VORP Community Discord](https://discord.gg/23MPbQ6)
 
 ## Installation
 1. Download this repo/codebase
-2. Extract and place `vorp-zonealerts` into your `resources` folder
-3. Add `ensure vorp-zonealerts` to your `server.cfg` file
+2. Extract and place `vorp_zonenotify` into your `resources` folder
+3. Add `ensure vorp_zonenotify` to your `server.cfg` file
 4. Restart your server (unless you have nightly restarts)
 
 ## How-to-configure
