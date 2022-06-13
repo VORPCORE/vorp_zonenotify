@@ -9,7 +9,7 @@ Join the [VORP Community Discord](https://discord.gg/23MPbQ6)
 1. Displays a top notification when you enter towns, districts, states, and others.
 2. Displays the time within the notification
 3. Displays the temperature within the notification
-4. 233+ Zones!
+4. 233+ Native Zones!
 5. Config based native notificaton or a custom Vue.js notification
     
     -- Custom

@@ -16,27 +16,27 @@ Citizen.CreateThread(function()
 		local zone = nil
 	
 		local tempstate = Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 0)
-		if tempstate ~= false and tempstate ~= nil then
+		if tempstate then
 			zone = tempstate
 		end
 
 		local tempwritten = Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 13)
-		if tempwritten ~= false and tempwritten ~= nil then
+		if tempwritten then
 			zone = tempwritten
 		end
 
 		local tempprint = Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 12)
-		if tempprint ~= false and tempprint ~= nil then
+		if tempprint then
 			zone = tempprint
 		end
 
 		local tempdistrict = Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 10)
-		if tempdistrict ~= false and tempdistrict ~= nil then
+		if tempdistrict then
 			zone = tempdistrict
 		end
 
 		local temptown = Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 1)
-		if temptown ~= false and temptown ~= nil then
+		if temptown then
 			zone = temptown
 		end
 
