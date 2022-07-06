@@ -106,6 +106,13 @@ function getZoneData(hash)
 	end
 end
 
+function formatTime(time) 
+	if time < 10 then
+		time = '0'..time
+	end
+	return time
+end
+
 function getIGTime()
 	-- Get Time for game
 	local hour =  GetClockHours()
@@ -121,11 +128,7 @@ function getIGTime()
 		ap = 'pm'
 	end
 
-	if hour < 10 then
-		hour = '0'..hour
-	end
-
-	return hour ..":" .. GetClockMinutes() ..":" .. GetClockSeconds() .. ap
+	return formatTime(hour) ..":" .. formatTime(GetClockMinutes()) ..":" .. formatTime(GetClockSeconds()) .. ap
 end
 
 function getIGWindSpeed()
