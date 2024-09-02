@@ -1,14 +1,7 @@
 local hashstore = false
 
-local characterselected = false
-
-RegisterNetEvent("vorp:SelectedCharacter")
-AddEventHandler("vorp:SelectedCharacter", function(charid)
-	Wait(1000)
-	characterselected = true
-end)
-
-Citizen.CreateThread(function()
+CreateThread(function()
+        repeat Wait(5000) until LocalPlayer.state.IsInSession
 	while true do
 		Citizen.Wait(3000)
 		local player = PlayerPedId()
@@ -40,7 +33,7 @@ Citizen.CreateThread(function()
 			zone = temptown
 		end
 
-		if hashstore ~= zone and characterselected == true then
+		if hashstore ~= zone  then
 			hashstore = zone
 			alertUI()
 		end
@@ -219,7 +212,7 @@ function alertTop()
 	})
 end
 
-RegisterCommand("zoneinfo", function(source, args, rawCommand) --  COMMAND
+--[[ RegisterCommand("zoneinfo", function(source, args, rawCommand) --  COMMAND
 	characterselected = true
 	alertUI()
 end)
@@ -230,5 +223,5 @@ RegisterCommand("debug:zoneinfo", function(source, args, rawCommand) -- Debug CO
 	print('state', Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 0))
 	print('print', Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 12))
 	print('written', Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 13))
-end)
+end) ]]--
 
