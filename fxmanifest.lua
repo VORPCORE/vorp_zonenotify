@@ -15,7 +15,6 @@ shared_scripts {
     'locales/en.lua',
 }
 client_scripts {
-    'client/warmenu.lua',
     'client/client.lua',
     'config.lua'
 }
