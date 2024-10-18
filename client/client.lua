@@ -81,6 +81,7 @@ function getMapData(hash)
 		if sd then
 			return sd.ZoneName
 		else
+			TriggerEvent("vorp:NotifyTop",  "OUT OF TOWN", Config.Notification.TimeShowing)
 			print('No data for:', hash)
 			return 'Unknown'
 		end
@@ -95,6 +96,7 @@ function getZoneData(hash)
 		if sd then
 			return sd.texture
 		else
+			TriggerEvent("vorp:NotifyTop",  "OUT OF TOWN", Config.Notification.TimeShowing)
 			print('No data for:', hash)
 			return nil
 		end
