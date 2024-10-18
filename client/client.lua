@@ -37,6 +37,10 @@ CreateThread(function()
 			hashstore = zone
 			alertUI()
 		end
+
+		if Config.EnableKeyCheck and IsControlPressed(0, Config.Key) then
+			alertUI()
+		end
 	end
 end)
 
