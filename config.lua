@@ -7,6 +7,9 @@ Config.Notification = {
   TimeShowing = 4000
 }
 
+Config.EnableKeyCheck = false
+Config.Key = 0xE8342FF2 -- ALT
+
 -- This is used for native zone alerts
 Config.ZoneData = {
   [2025841068] = {
