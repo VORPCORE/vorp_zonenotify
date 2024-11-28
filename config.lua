@@ -7,6 +7,18 @@ Config.Notification = {
   TimeShowing = 4000
 }
 
+Config.ShowTime = true
+Config.TimeDayColor = ' ~COLOR_WHITE~'
+Config.TimeNightColor = ' ~COLOR_BLUEDARK~'
+
+Config.ShowTemperature = true
+Config.TemperatureColdDegree = 15
+Config.TemperatureHotColor = ' ~COLOR_YELLOWSTRONG~'
+Config.TemperatureColdColor = ' ~COLOR_BLUE~'
+
+Config.ShowWind = true
+Config.WindColor = ' ~COLOR_RADAR_CENTER_BLIP~'
+
 Config.EnableKeyCheck = false
 Config.Key = 0xE8342FF2 -- ALT
 
