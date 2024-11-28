@@ -21,6 +21,10 @@ RedM zone notification system for [VORP Core](https://vorpcore.mintlify.app/intr
 **Native**
 <img alt="image" src="https://user-images.githubusercontent.com/10902965/170857584-2bca2214-e671-4c7d-87f8-acd5022f02c3.png">
 
+**Dynamic Color**
+
+<img alt="image" src="https://github.com/user-attachments/assets/3ad927e1-efe3-4c03-902a-7b318eed2390">
+
 ## Installation
 1. Download this repo/codebase
 2. Extract and place `vorp_zonenotify` into your `resources` folder
