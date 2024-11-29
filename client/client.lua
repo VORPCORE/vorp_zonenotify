@@ -38,9 +38,6 @@ CreateThread(function()
 			alertUI()
 		end
 
-		if Config.EnableKeyCheck and IsControlPressed(0, Config.Key) then
-			alertUI()
-		end
 	end
 end)
 
@@ -207,9 +204,9 @@ function nativeAlertTop()
         end
 		
 		if Config.ShowWind then
-		if text ~= "" then
-			text = text .. " " .. '~COLOR_WHITE~' .. "|"
-		end
+			if text ~= "" then
+				text = text .. " " .. '~COLOR_WHITE~' .. "|"
+			end
 			text = text .. Config.WindColor .. wind
 		end
 
@@ -260,4 +257,3 @@ RegisterCommand("debug:zoneinfo", function(source, args, rawCommand) -- Debug CO
 	print('print', Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 12))
 	print('written', Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 13))
 end) ]]--
-
