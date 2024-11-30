@@ -40,6 +40,7 @@ All configurations available in `config.lua`
 - Config.ShowTime = To show the time in the UI (Config.TimeDayColor/Config.TimeNightColor)
 - Config.ShowTemperature = To show the temperature in the UI (Config.TemperatureColdDegree/Config.TemperatureHotColor/Config.TemperatureColdColor)
 - Config.ShowWind = To show the wind in the UI (Config.WindColor)
+- Config.OutOfTownNotification = When you check the zone, if you are not in a zone, you will see an “Out of Town” warning
 
 ## TODO
 - Add locales
