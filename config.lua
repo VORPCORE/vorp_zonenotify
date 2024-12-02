@@ -2,13 +2,29 @@ Config = {}
 
 Config.Locale = "en"
 
+Config.Debug = false -- Dont make true on Live Server
+
 Config.NativeZones = true
 Config.Notification = {
   TimeShowing = 4000
 }
 
+Config.ShowTime = true
+Config.TimeDayColor = ' ~COLOR_WHITE~'
+Config.TimeNightColor = ' ~COLOR_BLUEDARK~'
+
+Config.ShowTemperature = true
+Config.TemperatureColdDegree = 15
+Config.TemperatureHotColor = ' ~COLOR_YELLOWSTRONG~'
+Config.TemperatureColdColor = ' ~COLOR_BLUE~'
+
+Config.ShowWind = true
+Config.WindColor = ' ~COLOR_RADAR_CENTER_BLIP~'
+
 Config.EnableKeyCheck = false
 Config.Key = 0xE8342FF2 -- ALT
+
+Config.OutOfTownNotification = false -- When you check the zone, if you are not in a zone, you will see an “Out of Town” warning
 
 -- This is used for native zone alerts
 Config.ZoneData = {

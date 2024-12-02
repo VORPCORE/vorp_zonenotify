@@ -78,8 +78,12 @@ function getMapData(hash)
 		if sd then
 			return sd.ZoneName
 		else
-			TriggerEvent("vorp:NotifyTop",  "OUT OF TOWN", Config.Notification.TimeShowing)
-			print('No data for:', hash)
+			if Config.OutOfTownNotification then
+				riggerEvent("vorp:NotifyTop",  "OUT OF TOWN", Config.Notification.TimeShowing)
+			end
+			if Config.Debug then
+				print('No data for:', hash)
+			end
 			return 'Unknown'
 		end
 	else
@@ -93,8 +97,12 @@ function getZoneData(hash)
 		if sd then
 			return sd.texture
 		else
-			TriggerEvent("vorp:NotifyTop",  "OUT OF TOWN", Config.Notification.TimeShowing)
-			print('No data for:', hash)
+			if Config.OutOfTownNotification then
+				riggerEvent("vorp:NotifyTop",  "OUT OF TOWN", Config.Notification.TimeShowing)
+			end
+			if Config.Debug then
+				print('No data for:', hash)
+			end
 			return nil
 		end
 	else
@@ -174,14 +182,44 @@ end
 
 function nativeAlertTop() 
 	local zone = getZoneData(hashstore)
+	local time_ = getIGTime()
+	local time = tonumber(string.match(time_, "^(%d+):"))
+    local temp_ = getIGTemp()
+    local temp = tonumber(string.match(temp_, "%d+")) or 0
+	local wind = getIGWindSpeed()
 
-	local time = getIGTime()
-	local temp = getIGTemp()
-	-- local wind = getIGWindSpeed()
+    if zone then
+        local text = ""
 
-	if zone then
-		TriggerEvent("vorp:NotifyTop",  time .. ' ~COLOR_YELLOWSTRONG~' .. temp, zone, Config.Notification.TimeShowing)
-	end
+        if Config.ShowTime then
+			if time >= 22 or time < 6 then
+				text = text .. Config.TimeNightColor .. time_
+			else
+				text = text .. Config.TimeDayColor .. time_
+			end
+        end
+
+        if Config.ShowTemperature then
+            if text ~= "" then
+                text = text .. " " .. '~COLOR_WHITE~' .. "|"
+            end
+			
+			if temp < Config.TemperatureColdDegree then
+				text = text .. Config.TemperatureColdColor .. temp_
+			else
+				text = text .. Config.TemperatureHotColor .. temp_
+			end
+        end
+		
+		if Config.ShowWind then
+			if text ~= "" then
+				text = text .. " " .. '~COLOR_WHITE~' .. "|"
+			end
+			text = text .. Config.WindColor .. wind
+		end
+
+        TriggerEvent("vorp:NotifyTop", text, zone, Config.Notification.TimeShowing)
+    end
 end
 
 function alertTop()
@@ -227,4 +265,3 @@ RegisterCommand("debug:zoneinfo", function(source, args, rawCommand) -- Debug CO
 	print('print', Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 12))
 	print('written', Citizen.InvokeNative(0x43AD8FC02B429D33, x, y, z, 13))
 end) ]]--
-

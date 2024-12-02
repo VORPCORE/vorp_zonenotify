@@ -7,18 +7,17 @@ name "vorp notify"
 author 'VORP @Bytesized'
 description 'A zone notify for vorp core framework'
 
-
 shared_scripts {
     'config.lua',
     'locale.lua',
     'locales/es.lua',
     'locales/en.lua',
 }
+
 client_scripts {
     '@vorp_core/client/dataview.lua',
     'client/*.lua',
 }
-
 
 files {
     'ui/*',
