@@ -81,7 +81,9 @@ function getMapData(hash)
 			if Config.OutOfTownNotification then
 				riggerEvent("vorp:NotifyTop",  "OUT OF TOWN", Config.Notification.TimeShowing)
 			end
-			print('No data for:', hash)
+			if Config.Debug then
+				print('No data for:', hash)
+			end
 			return 'Unknown'
 		end
 	else
@@ -98,7 +100,9 @@ function getZoneData(hash)
 			if Config.OutOfTownNotification then
 				riggerEvent("vorp:NotifyTop",  "OUT OF TOWN", Config.Notification.TimeShowing)
 			end
-			print('No data for:', hash)
+			if Config.Debug then
+				print('No data for:', hash)
+			end
 			return nil
 		end
 	else

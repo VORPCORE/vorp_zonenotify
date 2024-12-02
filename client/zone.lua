@@ -86,22 +86,35 @@ end
 ---@return string
 local function LocationUiGetBottomText(vPlayerCoords)
     local iHours, iMinute = GetClockHours(), GetClockMinutes()
-    local sTime = FormatHoursAndMinutes(iHours, iMinute)
-    local sText
+    local sText = ""
 
-    if not ShouldUse_24HourClock() then
-        sTime = ConvertTo12Hour(iHours, iMinute)
+    if Config.ShowTime then
+        local sTime = FormatHoursAndMinutes(iHours, iMinute)
+        if not ShouldUse_24HourClock() then
+            sTime = ConvertTo12Hour(iHours, iMinute)
+        end
+        local timeColor = (iHours >= 22 or iHours < 6) and Config.TimeNightColor or Config.TimeDayColor
+        sText = sText .. timeColor .. sTime
     end
 
-    local fTemperature = GetTemperatureAtCoords(vPlayerCoords.x, vPlayerCoords.y, vPlayerCoords.z)
-    local sTemperature = ''
-    if not ShouldUseMetricTemperature() then -- Fahrenheit
-        sTemperature = math.ceil(CelsiusToFahrenheit(fTemperature)) .. '°F'
-    else
-        sTemperature = math.ceil(fTemperature) .. '°C'
+    if Config.ShowTemperature then
+        local fTemperature = GetTemperatureAtCoords(vPlayerCoords.x, vPlayerCoords.y, vPlayerCoords.z)
+        local tempColor = (fTemperature < Config.TemperatureColdDegree) and Config.TemperatureColdColor or Config.TemperatureHotColor
+        local sTemperature = ShouldUseMetricTemperature() and math.ceil(fTemperature) .. '°C' or math.ceil(CelsiusToFahrenheit(fTemperature)) .. '°F'
+        
+        if sText ~= "" then
+            sText = sText .. " " .. '~COLOR_WHITE~| '
+        end
+        sText = sText .. tempColor .. sTemperature
     end
 
-    sText = sTime .. ' | ' .. sTemperature
+    if Config.ShowWind then
+        local fWindSpeed = getIGWindSpeed(vPlayerCoords.x, vPlayerCoords.y, vPlayerCoords.z)
+        if sText ~= "" then
+            sText = sText .. " " .. '~COLOR_WHITE~| '
+        end
+        sText = sText .. Config.WindColor .. fWindSpeed
+    end
 
     return sText
 end
@@ -467,20 +480,20 @@ end
 ---@param vPlayerCoords vector3
 ---@param iPlayerPedId integer
 local function ProcessLocations(iGameTimer, vPlayerCoords, iPlayerPedId)
-    if iGameTimer - m_StateDisplayData.iCheckLastDone > 500 then -- for optimization we'll check for location changes every 500 ms
+    if iGameTimer - m_StateDisplayData.iCheckLastDone > 500 then -- For optimization we'll check for location changes every 500 ms
         m_StateDisplayData.iCheckLastDone = iGameTimer
 
         local hCurrentState = GetMapZoneAtCoords(vPlayerCoords.x, vPlayerCoords.y, vPlayerCoords.z, eMAP_ZONE_TYPE.STATE)
         local hCurrentDistrict = GetMapZoneAtCoords(vPlayerCoords.x, vPlayerCoords.y, vPlayerCoords.z, eMAP_ZONE_TYPE.DISTRICT)
         local hCurrentTown = GetMapZoneAtCoords(vPlayerCoords.x, vPlayerCoords.y, vPlayerCoords.z, eMAP_ZONE_TYPE.TOWN)
 
-        -- code block to display the location ui when we change towns, states or districts.
+        -- Display the UI with updated location and Time / Temperature Info
         if m_StateDisplayData.hStoredState ~= hCurrentState then
             m_StateDisplayData.hStoredState = hCurrentState
 
             if hCurrentState ~= 0 then
                 local sTopText = LocationUiCheckStateFromHash(hCurrentState)
-                if sTopText and UiFeedGetCurrentMessage(2) == 0 then -- Fixes UI showing twice when entering from NA to WE
+                if sTopText and UiFeedGetCurrentMessage(2) == 0 then
                     ShowLocationUi(LocationUiGetBottomText(vPlayerCoords), sTopText, LOCATION_UI_TIME)
                 end
             end
@@ -489,7 +502,7 @@ local function ProcessLocations(iGameTimer, vPlayerCoords, iPlayerPedId)
 
             if hCurrentDistrict ~= 0 then
                 local sTopText = LocationUiCheckDistrictFromHash(hCurrentDistrict)
-                if sTopText and UiFeedGetCurrentMessage(2) == 0 then -- Fixes UI showing twice when entering from NA to WE
+                if sTopText and UiFeedGetCurrentMessage(2) == 0 then
                     ShowLocationUi(LocationUiGetBottomText(vPlayerCoords), sTopText, LOCATION_UI_TIME)
                 end
             end
@@ -498,29 +511,29 @@ local function ProcessLocations(iGameTimer, vPlayerCoords, iPlayerPedId)
 
             if hCurrentTown ~= 0 then
                 local sTopText = LocationUiCheckTownsFromHash(hCurrentTown)
-                if sTopText and UiFeedGetCurrentMessage(2) == 0 then -- Fixes UI showing twice when entering from NA to WE
+                if sTopText and UiFeedGetCurrentMessage(2) == 0 then
                     ShowLocationUi(LocationUiGetBottomText(vPlayerCoords), sTopText, LOCATION_UI_TIME)
                 end
             end
         end
     end
+    if Config.EnableKeyCheck then
+        if IsControlJustPressed(0, Config.Key) then
+            if UiFeedGetCurrentMessage(2) ~= 0 then return end -- Make sure the location ui isnt displaying
 
-    if IsControlJustPressed(0, `INPUT_PC_FREE_LOOK`) then  --PRESS ALT
-        if UiFeedGetCurrentMessage(2) ~= 0 then return end -- make sure the location ui isnt displaying
+            local iInterior = GetInteriorFromEntity(iPlayerPedId)
+            if iInterior ~= 0 and not IsInteriorACave(iInterior) then
+                return
+            end
 
-        local iInterior = GetInteriorFromEntity(iPlayerPedId)
-        if iInterior ~= 0 and not IsInteriorACave(iInterior) then
-            return
+            local sTopText = LocationUiGetTopText(vPlayerCoords)
+
+            if sTopText == '' or not sTopText then
+                print('ProcessLocations: sTopText is nil or empty!')
+                return
+            end
+            ShowLocationUi(LocationUiGetBottomText(vPlayerCoords), sTopText, LOCATION_UI_TIME)
         end
-
-        local sTopText = LocationUiGetTopText(vPlayerCoords)
-
-        if sTopText == '' or not sTopText then
-            print('ProcessLocations: sTopText is nil or empty!')
-            return
-        end
-        print(sTopText)
-        ShowLocationUi(LocationUiGetBottomText(vPlayerCoords), sTopText, LOCATION_UI_TIME)
     end
 end
 
