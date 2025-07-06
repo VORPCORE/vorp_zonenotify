@@ -16,7 +16,7 @@ shared_scripts {
 
 client_scripts {
     '@vorp_core/client/dataview.lua',
-    'client/*.lua',
+    'client/zone.lua', -- to use custom nui message use client.lua
 }
 
 files {
